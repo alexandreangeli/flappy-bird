@@ -6,6 +6,8 @@ class PipePair {
 
     this.minY = 200;
 
+    this.behindBird = false;
+
     this.voidY = randomIntFromInterval(this.minY, canvas.height - this.minY);
 
     this.pipes = [
@@ -22,6 +24,14 @@ class PipePair {
   draw() {
     this.pipes[0].draw();
     this.pipes[1].draw();
+
+    if (
+      !this.behindBird &&
+      this.pipes[0].x + this.pipes[0].width < bird.x - bird.radius
+    ) {
+      this.behindBird = true;
+      score.value++;
+    }
   }
 }
 
