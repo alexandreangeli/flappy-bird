@@ -1,22 +1,21 @@
 class PipePair {
   constructor() {
     this.voidHeight = 100;
-
-    this.pipeWidth = 50;
-
-    this.minY = 200;
+    this.minY = 150;
 
     this.behindBird = false;
 
-    this.voidY = randomIntFromInterval(this.minY, canvas.height - this.minY);
+    this.voidY = randomIntFromInterval(
+      this.minY - this.voidHeight,
+      window.canvas.height - this.minY
+    );
 
     this.pipes = [
-      new Pipe(canvas.width, 0, this.pipeWidth, this.voidY),
+      new Pipe(window.canvas.width, 0, this.voidY),
       new Pipe(
-        canvas.width,
+        window.canvas.width,
         this.voidY + this.voidHeight,
-        this.pipeWidth,
-        canvas.height - this.voidHeight - this.voidY
+        window.canvas.height - this.voidHeight - this.voidY
       ),
     ];
   }
@@ -24,18 +23,9 @@ class PipePair {
   draw() {
     this.pipes[0].draw();
     this.pipes[1].draw();
-
-    if (
-      !this.behindBird &&
-      this.pipes[0].x + this.pipes[0].width < bird.x - bird.radius
-    ) {
-      this.behindBird = true;
-      score.value++;
-    }
   }
 }
 
 function randomIntFromInterval(min, max) {
-  // min and max included
   return Math.floor(Math.random() * (max - min + 1) + min);
 }

@@ -1,103 +1,119 @@
-var canvas = document.querySelector("canvas");
-var ctx = canvas.getContext("2d");
+window.canvas = document.querySelector("canvas");
+window.ctx = window.canvas.getContext("2d");
 
-canvas.width = window.innerWidth - 2;
-canvas.height = window.innerHeight;
-
-if (canvas.width > 500) {
-  canvas.width = 500;
+window.canvas.width = window.innerWidth - 2;
+window.canvas.height = window.innerHeight;
+if (window.canvas.width > 500) {
+  window.canvas.width = 500;
 }
-if (canvas.height > 700) {
-  canvas.height = 700;
+if (window.canvas.height > 700) {
+  window.canvas.height = 700;
 }
 
-var score = new Score();
-var bird = new Bird();
-var pipePairs = [];
-pipePairs.push(new PipePair());
-setInterval(() => {
+function start(humanPlaying, botGroup) {
+  let ticks = 0;
+  if (document.getElementById("startButtons"))
+    document.getElementById("startButtons").remove();
+
+  if (humanPlaying) {
+    var score = new Score();
+    var player = new Player();
+  } else if (!botGroup) {
+    botGroup = new BotGroup();
+  }
+
+  var pipePairs = [];
   pipePairs.push(new PipePair());
-}, 2000);
+  let interval = setInterval(() => pipePairs.push(new PipePair()), 2000);
 
-document.addEventListener("click", onClickHandler, false);
-document.addEventListener("touchend", onClickHandler, false);
-
-function onClickHandler(e) {
-  e.preventDefault();
-  bird.jump();
-}
-
-function collisionDetection(circle, rect) {
-  var distX = Math.abs(circle.x - rect.x - rect.w / 2);
-  var distY = Math.abs(circle.y - rect.y - rect.h / 2);
-
-  if (distX > rect.w / 2 + circle.r) {
-    return false;
-  }
-  if (distY > rect.h / 2 + circle.r) {
-    return false;
-  }
-
-  if (distX <= rect.w / 2) {
-    return { y: true, x: false };
-  }
-  if (distY <= rect.h / 2) {
-    return { y: false, x: true };
-  }
-
-  var dx = distX - rect.w / 2;
-  var dy = distY - rect.h / 2;
-  return dx * dx + dy * dy <= circle.r * circle.r
-    ? { y: true, x: true }
-    : { y: false, x: false };
-}
-
-let gameIsOver = false;
-function gameOver() {
-  if (!gameIsOver) {
-    gameIsOver = true;
-    setTimeout(() => {
-      alert("GAME OVER");
-      document.location.reload();
-    }, 50);
-  }
-}
-
-function draw() {
-  if (!gameIsOver) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    score.draw();
-    bird.draw();
-
-    pipePairs.forEach((pipePair) => {
-      pipePair.draw();
-    });
-
-    requestAnimationFrame(draw);
-
+  function checkScore() {
     for (let pipePair of pipePairs) {
-      for (let pipe of pipePair.pipes) {
-        if (
-          collisionDetection(
-            {
-              x: bird.x,
-              y: bird.y,
-              r: bird.radius,
-            },
-            {
-              x: pipe.x,
-              y: pipe.y,
-              h: pipe.height,
-              w: pipe.width,
-            }
-          )
-        ) {
-          gameOver();
-        }
+      let pipe = pipePair.pipes[0];
+      if (
+        !pipe.behindBird &&
+        pipe.x + pipe.width < player.bird.x - player.bird.radius
+      ) {
+        pipe.behindBird = true;
+        score.value++;
       }
     }
   }
-}
 
-draw();
+  let gameIsOver = false;
+  function gameOver() {
+    if (!gameIsOver) {
+      gameIsOver = true;
+      setTimeout(() => {
+        alert("GAME OVER");
+        document.location.reload();
+      }, 50);
+    }
+  }
+
+  function draw() {
+    if (!gameIsOver) {
+      ticks++;
+      window.ctx.clearRect(0, 0, window.canvas.width, window.canvas.height);
+
+      if (humanPlaying && player.bird.died_at) {
+        gameOver();
+      }
+
+      pipePairs.forEach((pipePair) => {
+        pipePair.draw();
+      });
+
+      if (humanPlaying) {
+        player.bird.draw();
+        player.bird.checkCollision(pipePairs, ticks);
+
+        score.draw();
+        checkScore();
+      } else {
+        botGroup.bots.forEach((bot) => {
+          bot.bird.draw();
+          bot.bird.checkCollision(pipePairs, ticks);
+          bot.action(pipePairs);
+        });
+        if (!botGroup.bots.find((bot) => !bot.bird.died_at)) {
+          gameIsOver = true;
+          let bestBot = botGroup.bots.find(
+            (b) =>
+              b.bird.died_at ==
+              Math.max(...botGroup.bots.map((b) => b.bird.died_at))
+          );
+          if (
+            botGroup.bots.filter((b) => b.bird.died_at == bestBot.bird.died_at)
+              .length == botGroup.population
+          ) {
+            botGroup = new BotGroup();
+          } else {
+            if (
+              !botGroup.topBot ||
+              botGroup.topBot.bird.died_at < bestBot.bird.died_at
+            ) {
+              botGroup.topBot = JSON.parse(JSON.stringify(bestBot));
+            }
+            botGroup.bots.forEach((bot) => {
+              bot.inputFactors = JSON.parse(
+                JSON.stringify(botGroup.topBot.inputFactors)
+              );
+              bot.nodeFactors = JSON.parse(
+                JSON.stringify(botGroup.topBot.nodeFactors)
+              );
+              bot.mutate();
+              bot.bird = new Bird();
+            });
+          }
+          clearInterval(interval);
+
+          start(false, botGroup);
+        }
+      }
+
+      requestAnimationFrame(draw);
+    }
+  }
+
+  draw();
+}

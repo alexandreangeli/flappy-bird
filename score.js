@@ -4,8 +4,8 @@ class Score {
   }
 
   draw() {
-    ctx.font = "16px Arial";
-    ctx.fillStyle = "#0095DD";
-    ctx.fillText("Score: " + this.value, 8, 20);
+    window.ctx.font = "16px Arial";
+    window.ctx.fillStyle = "#0095DD";
+    window.ctx.fillText("Score: " + this.value, 8, 20);
   }
 }

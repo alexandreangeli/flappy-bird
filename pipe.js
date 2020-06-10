@@ -1,5 +1,5 @@
 class Pipe {
-  constructor(x, y, width, height) {
+  constructor(x, y, height) {
     this.color = "green";
 
     this.x0 = x;
@@ -7,12 +7,12 @@ class Pipe {
     this.x = this.x0;
     this.y = this.y0;
 
-    this.width = width;
+    this.width = 50;
     this.height = height;
 
     this.dx = -2.5;
 
-    this.yMax = canvas.height - this.radius;
+    this.yMax = window.canvas.height - this.radius;
     this.yMin = this.radius;
 
     this.gravity = 0.098;
@@ -22,10 +22,10 @@ class Pipe {
   draw() {
     this.x += this.dx;
 
-    ctx.beginPath();
-    ctx.rect(this.x, this.y, this.width, this.height);
-    ctx.fillStyle = this.color;
-    ctx.fill();
-    ctx.closePath();
+    window.ctx.beginPath();
+    window.ctx.rect(this.x, this.y, this.width, this.height);
+    window.ctx.fillStyle = this.color;
+    window.ctx.fill();
+    window.ctx.closePath();
   }
 }
