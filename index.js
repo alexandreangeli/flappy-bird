@@ -104,6 +104,8 @@ function start(humanPlaying, botGroup) {
               bot.mutate();
               bot.bird = new Bird();
             });
+            botGroup.bots[0] = JSON.parse(botGroup.topBot);
+            botGroup.bots[0].bird = new Bird();
           }
           clearInterval(interval);
 
