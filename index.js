@@ -94,18 +94,18 @@ function start(humanPlaying, botGroup) {
             ) {
               botGroup.topBot = JSON.parse(JSON.stringify(bestBot));
             }
-            botGroup.bots.forEach((bot) => {
+            botGroup.bots.forEach((bot, index) => {
               bot.inputFactors = JSON.parse(
                 JSON.stringify(botGroup.topBot.inputFactors)
               );
               bot.nodeFactors = JSON.parse(
                 JSON.stringify(botGroup.topBot.nodeFactors)
               );
-              bot.mutate();
               bot.bird = new Bird();
+              if (index != 1) {
+                bot.mutate();
+              }
             });
-            botGroup.bots[0] = JSON.parse(JSON.stringify(botGroup.topBot));
-            botGroup.bots[0].bird = new Bird();
           }
           clearInterval(interval);
 
