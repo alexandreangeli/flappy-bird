@@ -53,7 +53,7 @@ class Bot {
   }
 
   mutate() {
-    let mutationFactor = randomIntFromInterval(1, 100) / 100;
+    let mutationFactor = randomIntFromInterval(1, 200) / 100;
 
     let newInputFactors = [];
     this.inputFactors.forEach((inputFactor) => {

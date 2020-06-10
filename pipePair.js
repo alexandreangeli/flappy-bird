@@ -1,6 +1,6 @@
 class PipePair {
   constructor() {
-    this.voidHeight = 100;
+    this.voidHeight = 120;
     this.minY = 150;
 
     this.behindBird = false;

@@ -11,12 +11,6 @@ class Pipe {
     this.height = height;
 
     this.dx = -2.5;
-
-    this.yMax = window.canvas.height - this.radius;
-    this.yMin = this.radius;
-
-    this.gravity = 0.098;
-    this.gravitySpeed = 0;
   }
 
   draw() {
