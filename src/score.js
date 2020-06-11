@@ -1,6 +1,7 @@
 class Score {
   constructor() {
     this.value = 0;
+    window.score = this;
   }
 
   draw() {
