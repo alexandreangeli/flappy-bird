@@ -11,20 +11,14 @@ class Background {
     };
     this.x = x;
     this.y = 0;
-    this.dx = -1;
+    this.xSpeed = -0.5;
   }
 
   move() {
-    this.x += this.dx;
+    this.x += this.xSpeed;
   }
 
   draw() {
-    window.ctx.drawImage(
-      this.img,
-      this.x,
-      this.y,
-      this.width,
-      window.canvas.height
-    );
+    window.ctx.drawImage(this.img, this.x, this.y, this.width, playableHeight);
   }
 }

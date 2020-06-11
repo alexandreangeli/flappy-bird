@@ -3,6 +3,7 @@ window.ctx = window.canvas.getContext("2d");
 
 window.canvas.width = window.innerWidth - 3;
 window.canvas.height = window.innerHeight;
+var playableHeight = window.canvas.height;
 
 function start(player, botGroup) {
   window.player = player;
@@ -12,6 +13,7 @@ function start(player, botGroup) {
 
   let ticks = 0;
 
+  var groundGenerator = new GroundGenerator();
   var backgroundGenerator = new BackgroundGenerator();
   var pipeGenerator = new PipeGenerator();
   var score = new Score();
@@ -33,6 +35,7 @@ function start(player, botGroup) {
 
     backgroundGenerator.draw();
     pipeGenerator.draw();
+    groundGenerator.draw();
 
     if (player) {
       player.bird.move();

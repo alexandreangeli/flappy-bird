@@ -1,3 +1,5 @@
+const pipeXSpeed = -2.5;
+
 class Pipe {
   constructor(x, height, isAtTop) {
     this.isAtTop = isAtTop;
@@ -5,7 +7,7 @@ class Pipe {
     this.img.onload = (i) => {
       this.y = this.isAtTop
         ? this.height - i.target.height
-        : window.canvas.height - this.height;
+        : playableHeight - this.height;
 
       this.height = i.target.height;
     };
@@ -22,11 +24,11 @@ class Pipe {
     this.width = 100;
     this.height = height;
 
-    this.dx = -2.5;
+    this.xSpeed = pipeXSpeed;
   }
 
   draw() {
-    this.x += this.dx;
+    this.x += this.xSpeed;
 
     window.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
   }

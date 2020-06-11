@@ -1,20 +1,20 @@
 class PipePair {
   constructor() {
     this.voidHeight = window.player ? 175 : 100;
-    this.minY = Math.max(70, window.canvas.height / 2 - 350);
+    this.minY = Math.max(70, playableHeight / 2 - 350);
 
     this.behindBird = false;
 
     this.voidY = randomIntFromInterval(
       this.minY,
-      window.canvas.height - this.minY - this.voidHeight
+      playableHeight - this.minY - this.voidHeight
     );
 
     this.pipes = [
       new Pipe(window.canvas.width + 100, this.voidY, true),
       new Pipe(
         window.canvas.width + 100,
-        window.canvas.height - this.voidHeight - this.voidY,
+        playableHeight - this.voidHeight - this.voidY,
         false
       ),
     ];
