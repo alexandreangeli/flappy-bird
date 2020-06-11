@@ -5,6 +5,8 @@ window.canvas.width = window.innerWidth - 2;
 window.canvas.height = window.innerHeight;
 
 function start(player, botGroup) {
+  window.player = player;
+
   if (document.getElementById("startButtons"))
     document.getElementById("startButtons").remove();
 

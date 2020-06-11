@@ -10,7 +10,7 @@ class Bird {
     this.yMax = window.canvas.height - this.radius;
     this.yMin = this.radius;
 
-    this.gravity = 0.25;
+    this.gravity = 0.5;
     this.gravitySpeed = 0;
 
     this.jumpSpeed = -6;
@@ -66,24 +66,28 @@ class Bird {
 
   checkCollision(pipePairs, ticks) {
     if (!this.died_at) {
-      for (let pipePair of pipePairs) {
-        for (let pipe of pipePair.pipes) {
-          if (
-            collisionDetection(
-              {
-                x: this.x,
-                y: this.y,
-                r: this.radius,
-              },
-              {
-                x: pipe.x,
-                y: pipe.y,
-                h: pipe.height,
-                w: pipe.width,
-              }
-            )
-          ) {
-            this.died_at = ticks;
+      if (this.y + this.radius == window.canvas.height) {
+        this.died_at = ticks;
+      } else {
+        for (let pipePair of pipePairs) {
+          for (let pipe of pipePair.pipes) {
+            if (
+              collisionDetection(
+                {
+                  x: this.x,
+                  y: this.y,
+                  r: this.radius,
+                },
+                {
+                  x: pipe.x,
+                  y: pipe.y,
+                  h: pipe.height,
+                  w: pipe.width,
+                }
+              )
+            ) {
+              this.died_at = ticks;
+            }
           }
         }
       }
