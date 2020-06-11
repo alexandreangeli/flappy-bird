@@ -21,10 +21,12 @@ class Bot {
   }
 
   action(pipePairs) {
-    let nextPair = pipePairs.find((pair) => {
-      let topPipe = pair.pipes[0];
-      return topPipe.x + topPipe.width > this.bird.x - this.bird.radius;
-    });
+    let nextPair =
+      pipePairs.find((pair) => !pair.behindBird) ||
+      pipePairs
+        .slice()
+        .reverse()
+        .find((pair) => pair.behindBird);
 
     let nextTopPipe = nextPair.pipes[0];
     let nextBottomPipe = nextPair.pipes[1];

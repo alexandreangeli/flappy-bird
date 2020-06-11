@@ -1,7 +1,7 @@
 window.canvas = document.querySelector("canvas");
 window.ctx = window.canvas.getContext("2d");
 
-window.canvas.width = window.innerWidth - 2;
+window.canvas.width = window.innerWidth - 3;
 window.canvas.height = window.innerHeight;
 
 function start(player, botGroup) {

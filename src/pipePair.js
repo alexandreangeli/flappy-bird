@@ -1,7 +1,7 @@
 class PipePair {
   constructor() {
     this.voidHeight = window.player ? 175 : 100;
-    this.minY = 70;
+    this.minY = Math.max(70, window.canvas.height / 2 - 350);
 
     this.behindBird = false;
 

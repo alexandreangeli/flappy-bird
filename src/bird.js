@@ -1,6 +1,6 @@
 class Bird {
   constructor() {
-    this.radius = 30;
+    this.radius = 25;
 
     this.x0 = window.canvas.width * 0.3;
     this.y0 = window.canvas.height / 2;
@@ -10,10 +10,11 @@ class Bird {
     this.yMax = window.canvas.height - this.radius;
     this.yMin = this.radius;
 
-    this.gravity = 0.5;
+    this.gravity = 0.8;
     this.gravitySpeed = 0;
+    this.maxGravitySpeed = 15;
 
-    this.jumpSpeed = -6;
+    this.jumpSpeed = -8;
 
     this.died_at = null;
 
@@ -28,6 +29,9 @@ class Bird {
     if (!this.died_at) {
       this.gravitySpeed += this.gravity;
       this.y += this.gravitySpeed;
+      if (this.gravitySpeed > this.maxGravitySpeed) {
+        this.gravitySpeed = this.maxGravitySpeed;
+      }
 
       if (this.y <= this.yMin) {
         this.y = this.yMin;
@@ -43,9 +47,13 @@ class Bird {
 
   draw() {
     if (!this.died_at) {
-      var rotation = this.gravitySpeed * 10;
-      if (rotation > 85) rotation = 85;
-      if (rotation < -85) rotation = -85;
+      var rotation = -30 + (this.gravitySpeed * 90) / this.maxGravitySpeed;
+      if (rotation > 90) {
+        rotation = 90;
+      }
+      if (rotation < -30) {
+        rotation = -30;
+      }
       window.ctx.save();
       window.ctx.translate(this.x, this.y);
       window.ctx.rotate((rotation * Math.PI) / 180);

@@ -7,7 +7,6 @@ class Pipe {
         ? this.height - i.target.height
         : window.canvas.height - this.height;
 
-      this.width = i.target.width;
       this.height = i.target.height;
     };
 
@@ -20,7 +19,7 @@ class Pipe {
     this.x0 = x;
     this.x = this.x0;
 
-    this.width = 50;
+    this.width = 100;
     this.height = height;
 
     this.dx = -2.5;
