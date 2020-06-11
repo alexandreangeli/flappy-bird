@@ -14,7 +14,7 @@
         justify-content: center;
       }
     	canvas { 
-        background: #eee; 
+        background-image: url(../images/background.png);
         padding: 0;
         margin: auto;
         display: block;
@@ -40,18 +40,21 @@
 
   <body>
     <div id="startButtons">
-      <button type="button" onclick="start(true)">Play!</button>
-      <button type="button"onclick="start(false)">Watch!</button>
+      <button type="button" onclick="start(new Player(), null)">Play!</button>
+      <button type="button"onclick="start(null, new BotGroup())">Watch!</button>
     </div>
     <canvas></canvas>
   </body>
 
-  <script language="javascript" type="text/javascript" src="score.js"></script>
-  <script language="javascript" type="text/javascript" src="player.js"></script>
-  <script language="javascript" type="text/javascript" src="botGroup.js"></script>
-  <script language="javascript" type="text/javascript" src="bot.js"></script>
-  <script language="javascript" type="text/javascript" src="bird.js"></script>
-  <script language="javascript" type="text/javascript" src="pipe.js"></script>
-  <script language="javascript" type="text/javascript" src="pipePair.js"></script>
-  <script language="javascript" type="text/javascript" src="index.js"></script>
+  <script language="javascript" type="text/javascript" src="src/background.js"></script>
+  <script language="javascript" type="text/javascript" src="src/backgroundGenerator.js"></script>
+  <script language="javascript" type="text/javascript" src="src/score.js"></script>
+  <script language="javascript" type="text/javascript" src="src/player.js"></script>
+  <script language="javascript" type="text/javascript" src="src/botGroup.js"></script>
+  <script language="javascript" type="text/javascript" src="src/bot.js"></script>
+  <script language="javascript" type="text/javascript" src="src/bird.js"></script>
+  <script language="javascript" type="text/javascript" src="src/pipe.js"></script>
+  <script language="javascript" type="text/javascript" src="src/pipePair.js"></script>
+  <script language="javascript" type="text/javascript" src="src/pipeGenerator.js"></script>
+  <script language="javascript" type="text/javascript" src="src/index.js"></script>
 </html>

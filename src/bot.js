@@ -2,8 +2,8 @@ class Bot {
   constructor() {
     this.bird = new Bird();
 
-    this.inputNumber = 3;
-    this.nodeNumber = 3;
+    this.inputNumber = 5;
+    this.nodeNumber = 5;
 
     this.inputFactors = [];
     while (this.inputFactors.length != this.inputNumber) {
@@ -27,12 +27,20 @@ class Bot {
     });
 
     let nextTopPipe = nextPair.pipes[0];
-    let distanceX = nextTopPipe.x + nextTopPipe.width / 2 - this.bird.x;
-    let distanceYTop = nextTopPipe.height - this.bird.y;
-    let distanceYBottom =
-      nextTopPipe.height + nextPair.voidHeight - this.bird.y;
+    let nextBottomPipe = nextPair.pipes[1];
 
-    let inputs = [distanceX, distanceYTop, distanceYBottom];
+    let distanceXLeft = nextTopPipe.x - this.bird.x;
+    let distanceXRight = nextTopPipe.x + nextTopPipe.width - this.bird.x;
+    let distanceYTop = nextTopPipe.y + nextTopPipe.height - this.bird.y;
+    let distanceYBottom = nextBottomPipe.y - this.bird.y;
+
+    let inputs = [
+      this.bird.gravitySpeed,
+      distanceXLeft,
+      distanceXRight,
+      distanceYTop,
+      distanceYBottom,
+    ];
 
     let nodes = [];
     for (let node = 0; node < this.nodeNumber; node++) {
@@ -46,7 +54,10 @@ class Bot {
     let nodeFinal =
       nodes[0] * this.nodeFactors[0] +
       nodes[1] * this.nodeFactors[1] +
-      nodes[2] * this.nodeFactors[2];
+      nodes[2] * this.nodeFactors[2] +
+      nodes[3] * this.nodeFactors[3] +
+      nodes[4] * this.nodeFactors[4];
+
     if (nodeFinal > 0) {
       this.bird.jump();
     }

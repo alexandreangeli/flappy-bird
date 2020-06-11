@@ -1,9 +1,8 @@
 class Bird {
   constructor() {
-    this.color = "orange";
-    this.radius = 15;
+    this.radius = 30;
 
-    this.x0 = 20;
+    this.x0 = window.canvas.width * 0.3;
     this.y0 = window.canvas.height / 2;
     this.x = this.x0;
     this.y = this.y0;
@@ -14,12 +13,18 @@ class Bird {
     this.gravity = 0.25;
     this.gravitySpeed = 0;
 
-    this.jumpSpeed = -5;
+    this.jumpSpeed = -6;
 
     this.died_at = null;
+
+    this.img = new Image();
+    this.basicBirdSrc = "../images/bird.png";
+    this.topBirdSrc = "../images/top-bird.png";
+
+    this.img.src = this.basicBirdSrc;
   }
 
-  draw() {
+  move() {
     if (!this.died_at) {
       this.gravitySpeed += this.gravity;
       this.y += this.gravitySpeed;
@@ -33,12 +38,25 @@ class Bird {
         this.y = this.yMax;
         this.gravitySpeed = 0;
       }
+    }
+  }
 
-      window.ctx.beginPath();
-      window.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-      window.ctx.fillStyle = this.color;
-      window.ctx.fill();
-      window.ctx.closePath();
+  draw() {
+    if (!this.died_at) {
+      var rotation = this.gravitySpeed * 10;
+      if (rotation > 85) rotation = 85;
+      if (rotation < -85) rotation = -85;
+      window.ctx.save();
+      window.ctx.translate(this.x, this.y);
+      window.ctx.rotate((rotation * Math.PI) / 180);
+      window.ctx.drawImage(
+        this.img,
+        -this.radius,
+        -this.radius,
+        this.radius * 2,
+        this.radius * 2
+      );
+      window.ctx.restore();
     }
   }
 
