@@ -5,7 +5,7 @@ class Score {
 
   draw() {
     window.ctx.font = "16px Arial";
-    window.ctx.fillStyle = "#0095DD";
+    window.ctx.fillStyle = "black";
     window.ctx.fillText("Score: " + this.value, 8, 20);
   }
 

@@ -53,9 +53,11 @@ function start(player, botGroup) {
         bot.bird.draw();
         bot.bird.checkCollision(pipeGenerator.pipePairs, ticks);
         score.update(bot.bird, pipeGenerator.pipePairs);
-        score.draw();
         bot.action(pipeGenerator.pipePairs);
       });
+      score.draw();
+      botGroup.drawMaxScore();
+      botGroup.drawGeneration();
 
       if (!botGroup.bots.find((bot) => !bot.bird.died_at)) {
         gameIsOver = true;
@@ -93,7 +95,10 @@ function start(player, botGroup) {
             }
           });
         }
-
+        botGroup.generation++;
+        if (score.value > botGroup.maxScore) {
+          botGroup.maxScore = score.value;
+        }
         start(false, botGroup);
       }
     }
