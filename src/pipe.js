@@ -21,7 +21,7 @@ class Pipe {
     this.x0 = x;
     this.x = this.x0;
 
-    this.width = 100;
+    this.width = 150;
     this.height = height;
 
     this.xSpeed = pipeXSpeed;

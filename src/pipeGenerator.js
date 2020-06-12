@@ -5,7 +5,7 @@ class PipeGenerator {
     this.pipePairs.push(new PipePair());
     this.interval = setInterval(
       () => this.pipePairs.push(new PipePair()),
-      2500
+      2800
     );
   }
 
