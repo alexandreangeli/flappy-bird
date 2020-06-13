@@ -10,8 +10,8 @@ class Score {
     window.ctx.fillText("Score: " + this.value, 8, 20);
   }
 
-  update(bird, pipePairs) {
-    for (let pipePair of pipePairs) {
+  update(bird) {
+    for (let pipePair of pipeGenerator.pipePairs) {
       let pipe = pipePair.pipes[0];
       if (!pipePair.behindBird && pipe.x + pipe.width < bird.x - bird.radius) {
         pipePair.behindBird = true;

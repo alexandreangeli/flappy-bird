@@ -4,80 +4,103 @@ class Bird {
 
     this.x0 = window.canvas.width * 0.3;
     this.y0 = playableHeight / 2;
+    this.xSpeed = 0;
     this.x = this.x0;
     this.y = this.y0;
 
     this.yMax = playableHeight - this.radius;
     this.yMin = this.radius;
 
-    this.gravity = 0.8;
+    this.gravity = 0.5;
     this.gravitySpeed = 0;
     this.maxGravitySpeed = 15;
 
-    this.jumpSpeed = -8;
+    this.jumpSpeed = -10;
 
-    this.died_at = null;
+    this.dead = false;
+    this.yWhenDied = null;
+
+    this.tired = false;
+    this.flying = false;
 
     this.img = new Image();
     this.basicBirdSrc = "../images/bird.png";
-    this.topBirdSrc = "../images/top-bird.png";
 
     this.img.src = this.basicBirdSrc;
   }
 
   move() {
-    if (!this.died_at) {
-      this.gravitySpeed += this.gravity;
-      this.y += this.gravitySpeed;
-      if (this.gravitySpeed > this.maxGravitySpeed) {
-        this.gravitySpeed = this.maxGravitySpeed;
-      }
+    this.x += this.xSpeed;
 
-      if (this.y <= this.yMin) {
-        this.y = this.yMin;
-        this.gravitySpeed = 0;
-      }
+    this.gravitySpeed += this.gravity;
+    this.y += this.gravitySpeed;
+    if (this.gravitySpeed > this.maxGravitySpeed) {
+      this.gravitySpeed = this.maxGravitySpeed;
+    }
 
-      if (this.y > this.yMax) {
-        this.y = this.yMax;
-        this.gravitySpeed = 0;
-      }
+    if (this.y <= this.yMin) {
+      this.y = this.yMin;
+      this.gravitySpeed = 0;
+    }
+
+    if (this.y > this.yMax) {
+      this.y = this.yMax;
+      this.gravitySpeed = 0;
     }
   }
 
   draw() {
-    if (!this.died_at) {
-      var rotation = -30 + (this.gravitySpeed * 90) / this.maxGravitySpeed;
-      if (rotation > 90) {
-        rotation = 90;
-      }
-      if (rotation < -30) {
-        rotation = -30;
-      }
-      window.ctx.save();
-      window.ctx.translate(this.x, this.y);
-      window.ctx.rotate((rotation * Math.PI) / 180);
-      window.ctx.drawImage(
-        this.img,
-        -this.radius,
-        -this.radius,
-        this.radius * 2,
-        this.radius * 2
-      );
-      window.ctx.restore();
+    var rotation = -30 + (this.gravitySpeed * 90) / this.maxGravitySpeed;
+    if (rotation > 90) {
+      rotation = 90;
     }
+    if (rotation < -30) {
+      rotation = -30;
+    }
+    window.ctx.save();
+    window.ctx.translate(this.x, this.y);
+    window.ctx.rotate((rotation * Math.PI) / 180);
+    window.ctx.drawImage(
+      this.img,
+      -this.radius,
+      -this.radius,
+      this.radius * 2,
+      this.radius * 2
+    );
+    window.ctx.restore();
   }
 
   jump() {
-    this.gravitySpeed = this.jumpSpeed;
+    if (!this.flying) {
+      this.gravitySpeed = this.jumpSpeed;
+    }
   }
 
-  checkCollision(pipePairs, ticks) {
-    if (!this.died_at) {
+  fly() {
+    if (!this.flying && !this.tired) {
+      let gravity = this.gravity;
+      this.gravitySpeed = 0;
+      this.gravity = 0;
+      this.flying = true;
+      setTimeout(() => {
+        this.flying = false;
+        this.tired = true;
+        this.gravity = gravity;
+        setTimeout(() => {
+          this.tired = false;
+        }, 2000);
+      }, 2000);
+    }
+  }
+
+  checkCollision() {
+    if (!this.dead) {
       if (this.y + this.radius >= playableHeight) {
-        this.died_at = ticks;
+        this.xSpeed = window.pipeXSpeed;
+        this.dead = true;
+        this.yWhenDied = this.y;
       } else {
-        for (let pipePair of pipePairs) {
+        for (let pipePair of pipeGenerator.pipePairs) {
           for (let pipe of pipePair.pipes) {
             if (
               collisionDetection(
@@ -94,7 +117,9 @@ class Bird {
                 }
               )
             ) {
-              this.died_at = ticks;
+              this.xSpeed = window.pipeXSpeed;
+              this.dead = true;
+              this.yWhenDied = this.y;
             }
           }
         }

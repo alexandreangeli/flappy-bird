@@ -4,26 +4,31 @@ class Bot {
 
     this.inputNumber = 5;
     this.nodeNumber = 5;
+    this.outputNumber = 1;
 
     this.inputFactors = [];
     while (this.inputFactors.length != this.inputNumber) {
       let inputFactor = [];
       while (inputFactor.length != this.nodeNumber) {
-        inputFactor.push(randomIntFromInterval(-1000, 1000));
+        inputFactor.push(randomFloatFromInterval(-0.5, 0.5, 2));
       }
       this.inputFactors.push(inputFactor);
     }
 
     this.nodeFactors = [];
     while (this.nodeFactors.length != this.nodeNumber) {
-      this.nodeFactors.push(randomIntFromInterval(-1000, 1000));
+      let nodeFactor = [];
+      while (nodeFactor.length != this.outputNumber) {
+        nodeFactor.push(randomFloatFromInterval(-0.5, 0.5, 2));
+      }
+      this.nodeFactors.push(nodeFactor);
     }
   }
 
-  action(pipePairs) {
+  getInputs() {
     let nextPair =
-      pipePairs.find((pair) => !pair.behindBird) ||
-      pipePairs
+      pipeGenerator.pipePairs.find((pair) => !pair.behindBird) ||
+      pipeGenerator.pipePairs
         .slice()
         .reverse()
         .find((pair) => pair.behindBird);
@@ -37,67 +42,55 @@ class Bot {
     let distanceYBottom = nextBottomPipe.y - this.bird.y;
 
     let inputs = [
-      this.bird.gravitySpeed,
       distanceXLeft,
       distanceXRight,
       distanceYTop,
       distanceYBottom,
+      randomFloatFromInterval(-0.5, 0.5, 2),
     ];
+    if (inputs.length != this.inputNumber) {
+      throw "Wrong input length";
+    }
 
-    let nodes = [];
-    for (let node = 0; node < this.nodeNumber; node++) {
-      var nodeValue = 0;
-      for (let input = 0; input < this.inputNumber; input++) {
-        nodeValue += inputs[input] * this.inputFactors[input][node];
+    return inputs;
+  }
+
+  getOutputs() {
+    let outputs = [() => this.bird.jump()];
+    if (outputs.length != this.outputNumber) {
+      throw "Wrong output length";
+    }
+    return outputs;
+  }
+
+  action(pipePairs) {
+    if (!this.bird.dead) {
+      let inputs = this.getInputs();
+      let outputs = this.getOutputs();
+
+      let nodes = [];
+      for (let node = 0; node < this.nodeNumber; node++) {
+        var nodeValue = 0;
+        for (let input = 0; input < this.inputNumber; input++) {
+          nodeValue += inputs[input] * this.inputFactors[input][node];
+        }
+        nodes.push(sigmoid(nodeValue));
       }
-      nodes.push(nodeValue > 0 ? nodeValue : 0);
-    }
 
-    let nodeFinal =
-      nodes[0] * this.nodeFactors[0] +
-      nodes[1] * this.nodeFactors[1] +
-      nodes[2] * this.nodeFactors[2] +
-      nodes[3] * this.nodeFactors[3] +
-      nodes[4] * this.nodeFactors[4];
+      let outputsNodes = [];
+      for (let outputNode = 0; outputNode < this.outputNumber; outputNode++) {
+        var outPutNodeValue = 0;
+        for (let node = 0; node < this.nodeNumber; node++) {
+          outPutNodeValue += nodes[node] * this.nodeFactors[node][outputNode];
+        }
+        outputsNodes.push(sigmoid(outPutNodeValue));
+      }
 
-    if (nodeFinal > 0) {
-      this.bird.jump();
-    }
-  }
-
-  mutate() {
-    let mutationFactor = randomIntFromInterval(1, 200) / 100;
-
-    let newInputFactors = [];
-    this.inputFactors.forEach((inputFactor) => {
-      let newInputFactor = [];
-      inputFactor.forEach((factor) => {
-        newInputFactor.push(
-          factor +
-            randomIntFromInterval(
-              Math.floor(-factor * mutationFactor),
-              Math.floor(factor * mutationFactor)
-            )
-        );
+      outputsNodes.forEach((outputNode, index) => {
+        if (outputNode > 0.5) {
+          outputs[index]();
+        }
       });
-      newInputFactors.push(newInputFactor);
-    });
-    this.inputFactors = newInputFactors;
-
-    let newNodeFactors = [];
-    this.nodeFactors.forEach((nodeFactor) => {
-      newNodeFactors.push(
-        nodeFactor +
-          randomIntFromInterval(
-            Math.floor(-nodeFactor * mutationFactor),
-            Math.floor(nodeFactor * mutationFactor)
-          )
-      );
-    });
-    this.nodeFactors = newNodeFactors;
+    }
   }
-}
-
-function randomIntFromInterval(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
 }

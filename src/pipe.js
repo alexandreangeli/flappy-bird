@@ -1,13 +1,11 @@
-const pipeXSpeed = -2.5;
-
 class Pipe {
-  constructor(x, height, isAtTop) {
+  constructor(x, width, heightInScreen, isAtTop) {
     this.isAtTop = isAtTop;
     this.img = new Image();
     this.img.onload = (i) => {
       this.y = this.isAtTop
-        ? this.height - i.target.height
-        : playableHeight - this.height;
+        ? this.heightInScreen - i.target.height
+        : playableHeight - this.heightInScreen;
 
       this.height = i.target.height;
     };
@@ -21,15 +19,7 @@ class Pipe {
     this.x0 = x;
     this.x = this.x0;
 
-    this.width = 150;
-    this.height = height;
-
-    this.xSpeed = pipeXSpeed;
-  }
-
-  draw() {
-    this.x += this.xSpeed;
-
-    window.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+    this.width = width;
+    this.heightInScreen = heightInScreen;
   }
 }

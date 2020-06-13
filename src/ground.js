@@ -10,7 +10,7 @@ class Ground {
       }
     };
     this.x = x;
-    this.xSpeed = pipeXSpeed;
+    this.xSpeed = window.pipeXSpeed;
     this.height = 60;
     playableHeight = window.canvas.height - this.height;
   }
