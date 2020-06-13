@@ -1,14 +1,9 @@
 class Background {
-  constructor(x, onLoadFunction) {
+  constructor(x) {
     this.img = new Image();
     this.img.src = "../images/background.png";
-    this.img.onload = (i) => {
-      this.width = i.target.width;
-      this.height = i.target.height;
-      if (onLoadFunction) {
-        onLoadFunction(i);
-      }
-    };
+    this.height = backgroundHeight;
+    this.width = backgroundWidth;
     this.x = x;
     this.y = 0;
     this.xSpeed = -0.5;

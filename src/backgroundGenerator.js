@@ -1,20 +1,26 @@
+var backgroundWidth = 0;
+var backgroundHeight = 0;
+let imgBackground = new Image();
+imgBackground.src = "../images/background.png";
+imgBackground.onload = (i) => {
+  backgroundWidth = i.target.width;
+  backgroundHeight = i.target.height;
+};
 class BackgroundGenerator {
   constructor() {
-    var background5 = new Background(0);
-    var background4 = new Background(0, (i) => {
-      background5.x = i.target.width + background4.x;
-    });
-    var background3 = new Background(0, (i) => {
-      background4.x = i.target.width + background3.x;
-    });
-    var background2 = new Background(0, (i) => {
-      background3.x = i.target.width + background2.x;
-    });
-    var background1 = new Background(0, (i) => {
-      background2.x = i.target.width + background1.x;
-    });
+    var background1 = new Background(0);
+    var background2 = new Background(backgroundWidth);
+    var background3 = new Background(backgroundWidth * 2);
+    var background4 = new Background(backgroundWidth * 3);
+    var background5 = new Background(backgroundWidth * 4);
 
-    this.backgrounds = [background1, background2, background3, background4];
+    this.backgrounds = [
+      background1,
+      background2,
+      background3,
+      background4,
+      background5,
+    ];
   }
 
   draw() {

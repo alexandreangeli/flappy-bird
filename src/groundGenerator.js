@@ -1,18 +1,21 @@
+var groundWidth = 0;
+var groundHeight = 0;
+var playableHeight = 0;
+let imgGround = new Image();
+imgGround.src = "../images/ground.png";
+imgGround.onload = (i) => {
+  groundWidth = i.target.width;
+  groundHeight = i.target.height;
+  playableHeight = window.canvas.height - groundHeight;
+};
+
 class GroundGenerator {
   constructor() {
-    var ground5 = new Ground(0);
-    var ground4 = new Ground(0, (i) => {
-      ground5.x = i.target.width + ground4.x;
-    });
-    var ground3 = new Ground(0, (i) => {
-      ground4.x = i.target.width + ground3.x;
-    });
-    var ground2 = new Ground(0, (i) => {
-      ground3.x = i.target.width + ground2.x;
-    });
-    var ground1 = new Ground(0, (i) => {
-      ground2.x = i.target.width + ground1.x;
-    });
+    var ground1 = new Ground(0);
+    var ground2 = new Ground(groundWidth);
+    var ground3 = new Ground(groundWidth * 2);
+    var ground4 = new Ground(groundWidth * 3);
+    var ground5 = new Ground(groundWidth * 4);
 
     this.grounds = [ground1, ground2, ground3, ground4, ground5];
   }

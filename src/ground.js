@@ -1,18 +1,12 @@
 class Ground {
-  constructor(x, onLoadFunction) {
+  constructor(x) {
     this.img = new Image();
     this.img.src = "../images/ground.png";
-    this.img.onload = (i) => {
-      this.width = i.target.width;
-      this.y = window.canvas.height - this.height;
-      if (onLoadFunction) {
-        onLoadFunction(i);
-      }
-    };
+    this.height = groundHeight;
+    this.width = groundWidth;
     this.x = x;
+    this.y = window.canvas.height - this.height;
     this.xSpeed = window.pipeXSpeed;
-    this.height = 60;
-    playableHeight = window.canvas.height - this.height;
   }
 
   move() {

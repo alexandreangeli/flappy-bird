@@ -3,14 +3,14 @@ window.ctx = window.canvas.getContext("2d");
 
 window.canvas.width = window.innerWidth - 3;
 window.canvas.height = window.innerHeight;
-var playableHeight = window.canvas.height;
-var groundGenerator = new GroundGenerator();
-var backgroundGenerator = new BackgroundGenerator();
 var pipeGenerator = new PipeGenerator();
 
 function start(player, botGroup) {
   pipeGenerator = new PipeGenerator();
   window.player = player;
+
+  var groundGenerator = new GroundGenerator();
+  var backgroundGenerator = new BackgroundGenerator();
 
   if (document.getElementById("startButtons"))
     document.getElementById("startButtons").remove();
