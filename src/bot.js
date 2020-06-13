@@ -4,7 +4,7 @@ class Bot {
 
     this.inputNumber = 5;
     this.nodeNumber = 5;
-    this.outputNumber = 1;
+    this.outputNumber = 2;
 
     this.inputFactors = [];
     while (this.inputFactors.length != this.inputNumber) {
@@ -56,7 +56,7 @@ class Bot {
   }
 
   getOutputs() {
-    let outputs = [() => this.bird.jump()];
+    let outputs = [() => this.bird.jump(), () => this.bird.fly()];
     if (outputs.length != this.outputNumber) {
       throw "Wrong output length";
     }

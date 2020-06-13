@@ -1,11 +1,3 @@
-var backgroundWidth = 0;
-var backgroundHeight = 0;
-let imgBackground = new Image();
-imgBackground.src = "../images/background.png";
-imgBackground.onload = (i) => {
-  backgroundWidth = i.target.width;
-  backgroundHeight = i.target.height;
-};
 class BackgroundGenerator {
   constructor() {
     var background1 = new Background(0);

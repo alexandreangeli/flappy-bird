@@ -1,14 +1,3 @@
-var groundWidth = 0;
-var groundHeight = 0;
-var playableHeight = 0;
-let imgGround = new Image();
-imgGround.src = "../images/ground.png";
-imgGround.onload = (i) => {
-  groundWidth = i.target.width;
-  groundHeight = i.target.height;
-  playableHeight = window.canvas.height - groundHeight;
-};
-
 class GroundGenerator {
   constructor() {
     var ground1 = new Ground(0);

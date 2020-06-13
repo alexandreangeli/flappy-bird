@@ -22,7 +22,7 @@ class PipeGenerator {
       this.pipePairs.push(
         new PipePair(
           lastPipeX + lastPipeWidth + this.distanceBetweenPipes,
-          this.pipeNumber % 9999 == 0
+          this.pipeNumber % 3 == 0
         )
       );
     }

@@ -1,3 +1,6 @@
+var imgBird = new Image();
+imgBird.src = "../images/bird.png";
+
 class Bird {
   constructor() {
     this.radius = 25;
@@ -22,11 +25,6 @@ class Bird {
 
     this.tired = false;
     this.flying = false;
-
-    this.img = new Image();
-    this.basicBirdSrc = "../images/bird.png";
-
-    this.img.src = this.basicBirdSrc;
   }
 
   move() {
@@ -61,7 +59,7 @@ class Bird {
     window.ctx.translate(this.x, this.y);
     window.ctx.rotate((rotation * Math.PI) / 180);
     window.ctx.drawImage(
-      this.img,
+      imgBird,
       -this.radius,
       -this.radius,
       this.radius * 2,

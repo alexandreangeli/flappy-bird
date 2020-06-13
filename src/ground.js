@@ -1,7 +1,16 @@
+var groundWidth = 0;
+var groundHeight = 0;
+var playableHeight = 0;
+let imgGround = new Image();
+imgGround.src = "../images/ground.png";
+imgGround.onload = (i) => {
+  groundWidth = i.target.width;
+  groundHeight = i.target.height;
+  playableHeight = window.canvas.height - groundHeight;
+};
+
 class Ground {
   constructor(x) {
-    this.img = new Image();
-    this.img.src = "../images/ground.png";
     this.height = groundHeight;
     this.width = groundWidth;
     this.x = x;
@@ -14,6 +23,6 @@ class Ground {
   }
 
   draw() {
-    window.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+    window.ctx.drawImage(imgGround, this.x, this.y, this.width, this.height);
   }
 }

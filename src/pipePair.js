@@ -10,7 +10,7 @@ class PipePair {
 
     this.pipesWidth = longPipe && !this.player ? 250 : 150;
     this.xSpeed = window.pipeXSpeed;
-    this.ySpeed = 2;
+    this.ySpeed = longPipe ? 0 : 0;
 
     this.pipes = [
       new Pipe(x, this.pipesWidth, this.voidY, true),
@@ -36,7 +36,13 @@ class PipePair {
       ) {
         this.ySpeed *= -1;
       }
-      window.ctx.drawImage(pipe.img, pipe.x, pipe.y, pipe.width, pipe.height);
+      window.ctx.drawImage(
+        pipe.isAtTop ? imgTopPipe : imgBottomPipe,
+        pipe.x,
+        pipe.y,
+        pipe.width,
+        pipe.height
+      );
     }
   }
 }

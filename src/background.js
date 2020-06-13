@@ -1,7 +1,14 @@
+var backgroundWidth = 0;
+var backgroundHeight = 0;
+let imgBackground = new Image();
+imgBackground.src = "../images/background.png";
+imgBackground.onload = (i) => {
+  backgroundWidth = i.target.width;
+  backgroundHeight = i.target.height;
+};
+
 class Background {
   constructor(x) {
-    this.img = new Image();
-    this.img.src = "../images/background.png";
     this.height = backgroundHeight;
     this.width = backgroundWidth;
     this.x = x;
@@ -14,6 +21,12 @@ class Background {
   }
 
   draw() {
-    window.ctx.drawImage(this.img, this.x, this.y, this.width, playableHeight);
+    window.ctx.drawImage(
+      imgBackground,
+      this.x,
+      this.y,
+      this.width,
+      playableHeight
+    );
   }
 }

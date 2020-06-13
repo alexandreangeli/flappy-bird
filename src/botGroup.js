@@ -187,9 +187,8 @@ class BotGroup {
 
     this.bots = [...botsToKeep, ...botsToMutate, ...botsToBreed];
 
-    this.bots.forEach((bot, index) => {
+    this.bots.forEach((bot) => {
       bot.bird = new Bird();
-      bot.bird.img.src = bot.bird.basicBirdSrc;
     });
 
     if (window.score.value > this.maxScore) {
