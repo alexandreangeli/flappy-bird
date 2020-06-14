@@ -1,8 +1,8 @@
 class BotGroup {
   constructor() {
     this.population = 500;
-    this.quantityToKeep = Math.max(2, Math.floor(this.population * 0.2));
-    this.quantityToMutate = Math.floor(this.population * 0.3);
+    this.quantityToKeep = 5;
+    this.quantityToMutate = Math.floor(this.population * 0.5);
     this.quantityToBreed =
       this.population - this.quantityToKeep - this.quantityToMutate;
 
