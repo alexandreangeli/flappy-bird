@@ -1,7 +1,7 @@
 window.pipeXSpeed = -2.5;
 class PipePair {
   constructor(x, longPipe) {
-    this.voidHeight = this.player ? 250 : longPipe ? 80 : 220;
+    this.voidHeight = this.player ? 250 : longPipe ? 80 : 230;
     this.minVoidY = Math.max(70, playableHeight / 2 - 350);
     this.maxVoidY = playableHeight - this.minVoidY - this.voidHeight;
 
@@ -10,7 +10,7 @@ class PipePair {
 
     this.pipesWidth = longPipe && !this.player ? 250 : 150;
     this.xSpeed = window.pipeXSpeed;
-    this.ySpeed = longPipe ? 0 : 2;
+    this.ySpeed = longPipe ? 0 : 1.5;
 
     this.pipes = [
       new Pipe(x, this.pipesWidth, this.voidY, true),
