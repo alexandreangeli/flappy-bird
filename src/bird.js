@@ -86,8 +86,8 @@ class Bird {
         this.gravity = gravity;
         setTimeout(() => {
           this.tired = false;
-        }, 2000);
-      }, 2000);
+        }, 3000);
+      }, 4000);
     }
   }
 
