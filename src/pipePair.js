@@ -10,7 +10,7 @@ class PipePair {
 
     this.pipesWidth = longPipe && !this.player ? 250 : 150;
     this.xSpeed = window.pipeXSpeed;
-    this.ySpeed = longPipe ? 0 : 0;
+    this.ySpeed = longPipe ? 0 : 2;
 
     this.pipes = [
       new Pipe(x, this.pipesWidth, this.voidY, true),
