@@ -2,8 +2,8 @@ class Bot {
   constructor() {
     this.bird = new Bird();
 
-    this.inputNumber = 5;
-    this.nodeNumber = 5;
+    this.inputNumber = 6;
+    this.nodeNumber = 6;
     this.outputNumber = 2;
     this.bias = randomFloatFromInterval(-0.5, 0.5, 2)
 
@@ -43,6 +43,7 @@ class Bot {
     let distanceYBottom = nextBottomPipe.y - this.bird.y;
 
     let inputs = [
+      window.canvas.height - groundHeight - this.bird.y,
       distanceXLeft,
       distanceXRight,
       distanceYTop,
