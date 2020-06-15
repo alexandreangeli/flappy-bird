@@ -87,7 +87,7 @@ class Bird {
         setTimeout(() => {
           this.tired = false;
         }, 6000);
-      }, 3500);
+      }, 2500);
     }
   }
 
