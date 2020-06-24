@@ -3,11 +3,11 @@ window.ctx = window.canvas.getContext("2d");
 
 window.canvas.width = window.innerWidth - 3;
 window.canvas.height = window.innerHeight;
-var pipeGenerator = new PipeGenerator();
+var pipeGenerator;
 
 function start(player, botGroup) {
-  pipeGenerator = new PipeGenerator();
   window.player = player;
+  pipeGenerator = new PipeGenerator();
 
   var groundGenerator = new GroundGenerator();
   var backgroundGenerator = new BackgroundGenerator();
