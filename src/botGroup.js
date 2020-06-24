@@ -6,7 +6,7 @@ class BotGroup {
     this.quantityToBreed =
       this.population - this.quantityToKeep - this.quantityToMutate;
 
-    this.mutationModifyChance = 0.2;
+    this.mutationModifyChance = 0.4;
     this.mutationMixPercentage = 0.5;
     this.mutatationOffspringMutationChance = 0.4;
 
@@ -117,7 +117,13 @@ class BotGroup {
     for (let i = 0; i < bot.inputFactors.length; i++) {
       for (let j = 0; j < bot.inputFactors[i].length; j++) {
         if (Math.random() < this.mutationModifyChance) {
-          bot.inputFactors[i][j] = randomFloatFromInterval(-0.5, 0.5, 2);
+          bot.inputFactors[i][j] = Math.max(
+            -0.5,
+            Math.min(
+              0.5,
+              bot.inputFactors[i][j] + randomFloatFromInterval(-0.1, 0.1, 2)
+            )
+          );
         }
       }
     }
@@ -125,7 +131,13 @@ class BotGroup {
     for (let i = 0; i < bot.nodeFactors.length; i++) {
       for (let j = 0; j < bot.nodeFactors[i].length; j++) {
         if (Math.random() < this.mutationModifyChance) {
-          bot.nodeFactors[i][j] = randomFloatFromInterval(-0.5, 0.5, 2);
+          bot.nodeFactors[i][j] = Math.max(
+            -0.5,
+            Math.min(
+              0.5,
+              bot.inputFactors[i][j] + randomFloatFromInterval(-0.1, 0.1, 2)
+            )
+          );
         }
       }
     }
