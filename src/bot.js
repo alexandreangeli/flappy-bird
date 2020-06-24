@@ -2,10 +2,10 @@ class Bot {
   constructor() {
     this.bird = new Bird();
 
-    this.inputNumber = 6;
-    this.nodeNumber = 6;
+    this.inputNumber = 5;
+    this.nodeNumber = 5;
     this.outputNumber = 2;
-    this.bias = randomFloatFromInterval(-0.5, 0.5, 2)
+    // this.bias = randomFloatFromInterval(-0.5, 0.5, 2)
 
     this.inputFactors = [];
     while (this.inputFactors.length != this.inputNumber) {
@@ -48,7 +48,7 @@ class Bot {
       distanceXRight,
       distanceYTop,
       distanceYBottom,
-      this.bias,
+      // this.bias,
     ];
     if (inputs.length != this.inputNumber) {
       throw "Wrong input length";
