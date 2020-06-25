@@ -1,12 +1,12 @@
 class BotGroup {
   constructor() {
-    this.population = 500;
-    this.quantityToKeep = 5;
-    this.quantityToMutate = Math.floor(this.population * 0.5);
+    this.population = 1000;
+    this.quantityToKeep = Math.floor(this.population * 0.1);
+    this.quantityToMutate = Math.floor(this.population * 0.3);
     this.quantityToBreed =
       this.population - this.quantityToKeep - this.quantityToMutate;
 
-    this.mutationModifyChance = 0.4;
+    this.mutationModifyChance = 0.1;
     this.mutationMixPercentage = 0.5;
     this.mutatationOffspringMutationChance = 0.4;
 
@@ -117,13 +117,7 @@ class BotGroup {
     for (let i = 0; i < bot.inputFactors.length; i++) {
       for (let j = 0; j < bot.inputFactors[i].length; j++) {
         if (Math.random() < this.mutationModifyChance) {
-          bot.inputFactors[i][j] = Math.max(
-            -0.5,
-            Math.min(
-              0.5,
-              bot.inputFactors[i][j] + randomFloatFromInterval(-0.1, 0.1, 2)
-            )
-          );
+          bot.inputFactors[i][j] = randomFloatFromInterval(-0.5, 0.5, 2);
         }
       }
     }
@@ -131,13 +125,7 @@ class BotGroup {
     for (let i = 0; i < bot.nodeFactors.length; i++) {
       for (let j = 0; j < bot.nodeFactors[i].length; j++) {
         if (Math.random() < this.mutationModifyChance) {
-          bot.nodeFactors[i][j] = Math.max(
-            -0.5,
-            Math.min(
-              0.5,
-              bot.inputFactors[i][j] + randomFloatFromInterval(-0.1, 0.1, 2)
-            )
-          );
+          bot.nodeFactors[i][j] = randomFloatFromInterval(-0.5, 0.5, 2);
         }
       }
     }
@@ -169,6 +157,25 @@ class BotGroup {
       if (aDistanceToVoidCenter < bDistanceToVoidCenter) return -1;
     });
 
+    bestBotToWorse.forEach((bot, index) => {
+      if (index == 0) {
+        bot.bestBotXGenerationsAgo = 1;
+      } else {
+        if (bot.bestBotXGenerationsAgo != 999999) {
+          bot.bestBotXGenerationsAgo++;
+          if (bot.bestBotXGenerationsAgo == 4) {
+            bot.bestBotXGenerationsAgo = 999999;
+          }
+        }
+      }
+    });
+
+    bestBotToWorse = bestBotToWorse.sort(function (a, b) {
+      if (a.bestBotXGenerationsAgo > b.bestBotXGenerationsAgo) return 1;
+      if (a.bestBotXGenerationsAgo < b.bestBotXGenerationsAgo) return -1;
+      return 0;
+    });
+
     let botsToKeep = bestBotToWorse.slice(0, this.quantityToKeep);
     bestBotToWorse = bestBotToWorse.slice(this.quantityToKeep);
 
@@ -189,8 +196,10 @@ class BotGroup {
         botsToKeep.length - 1
       );
       botsToBreed[botNumber] = this.getMixFromArrays(
-        botsToKeep[goodBotsToBreed[0]],
-        botsToKeep[goodBotsToBreed[1]]
+        botsToKeep[0],
+        botsToKeep[1]
+        // botsToKeep[goodBotsToBreed[0]],
+        // botsToKeep[goodBotsToBreed[1]]
       );
       if (Math.random() < this.mutatationOffspringMutationChance) {
         this.modifyBot(botsToBreed[botNumber]);

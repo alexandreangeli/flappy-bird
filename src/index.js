@@ -51,7 +51,9 @@ function start(player, botGroup) {
         bot.bird.draw();
         bot.bird.checkCollision();
         score.update(bot.bird, pipeGenerator.pipePairs);
-        bot.action();
+        if (!bot.bird.dead) {
+          bot.action();
+        }
       });
       botGroup.drawMaxScore();
       botGroup.drawGeneration();
