@@ -1,7 +1,7 @@
 window.canvas = document.querySelector("canvas");
 window.ctx = window.canvas.getContext("2d");
 
-window.canvas.width = window.innerWidth - 3;
+window.canvas.width = Math.min(window.innerWidth - 3, 600);
 window.canvas.height = window.innerHeight;
 var pipeGenerator;
 
