@@ -1,6 +1,6 @@
 var imgBird = new Image();
 imgBird.src = "../images/bird.png";
-
+const defaultGravity = 0.5
 class Bird {
   constructor() {
     this.radius = 25;
@@ -14,7 +14,7 @@ class Bird {
     this.yMax = playableHeight - this.radius;
     this.yMin = this.radius;
 
-    this.gravity = 0.5;
+    this.gravity = defaultGravity;
     this.gravitySpeed = 0;
     this.maxGravitySpeed = 15;
 
@@ -23,8 +23,12 @@ class Bird {
     this.dead = false;
     this.yWhenDied = null;
 
-    this.tired = false;
+    this.tired = true;
     this.flying = false;
+
+    setTimeout(() => {
+      this.resetTiredness()
+    }, 2500)
   }
 
   move() {
@@ -81,14 +85,22 @@ class Bird {
       this.gravity = 0;
       this.flying = true;
       setTimeout(() => {
-        this.flying = false;
-        this.tired = true;
-        this.gravity = gravity;
+        this.endFlying()
         setTimeout(() => {
-          this.tired = false;
+          this.resetTiredness()
         }, 6000);
       }, 2500);
     }
+  }
+
+  endFlying() {
+    this.flying = false
+    this.tired = true
+    this.gravity = defaultGravity
+  }
+
+  resetTiredness() {
+    this.tired = false
   }
 
   checkCollision() {
